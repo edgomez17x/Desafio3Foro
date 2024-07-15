@@ -1,6 +1,7 @@
 package com.alurachallenge.Foro.modules.usuario;
 
 import com.alurachallenge.Foro.modules.perfil.Perfil;
+import com.alurachallenge.Foro.modules.usuario.records.UsuarioRequestRec;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,6 +23,12 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "idperfiles")
     private Perfil perfil;
 
+    public Usuario(String nombre, String correoElectronico, String contrasena, Perfil perfil) {
+        this.nombre = nombre;
+        this.contrasena = contrasena;
+        this.correoElectronico = correoElectronico;
+        this.perfil = perfil;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -88,5 +95,12 @@ public class Usuario implements UserDetails {
 
     public void setPerfil(Perfil perfil) {
         this.perfil = perfil;
+    }
+
+    public void actualizarUsuario(UsuarioRequestRec urr, Perfil perfil) {
+        this.contrasena = urr.contrasena();
+        this.nombre = urr.nombre();
+        this.perfil = perfil;
+        this.correoElectronico = urr.correoElectronico();
     }
 }
