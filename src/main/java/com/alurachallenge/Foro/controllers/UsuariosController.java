@@ -10,6 +10,7 @@ import com.alurachallenge.Foro.modules.usuario.records.UsuarioRegistroResRec;
 import com.alurachallenge.Foro.modules.usuario.records.UsuarioRequestRec;
 import com.alurachallenge.Foro.modules.usuario.records.UsuarioResponseRec;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,12 +42,14 @@ public class UsuariosController {
     }
 
     @PutMapping("/{id}")
+    @Transactional
     public ResponseEntity<UsuarioResponseRec> actualizarUsuarioPorId(@PathVariable Long id, @RequestBody @Valid UsuarioRequestRec urr){
         Usuario usuario = usuarioService.actualizarUsuarioPorId(id, urr);
         return ResponseEntity.ok(new UsuarioResponseRec(usuario));
     }
 
     @PostMapping
+    @Transactional
     public ResponseEntity<UsuarioRegistroResRec> registrarUsuario(@RequestBody @Valid UsuarioRegistroReqRec urqr, UriComponentsBuilder uriComponentsBuilder){
         UsuarioRegistroResRec ursr = usuarioService.registrarUsuario(urqr);
         URI uri = uriComponentsBuilder.path("/usuarios/{id}").buildAndExpand(ursr.id()).toUri();

@@ -23,6 +23,10 @@ public class Usuario implements UserDetails {
     @JoinColumn(name = "idperfiles")
     private Perfil perfil;
 
+    public Usuario(){
+
+    }
+
     public Usuario(String nombre, String correoElectronico, String contrasena, Perfil perfil) {
         this.nombre = nombre;
         this.contrasena = contrasena;
